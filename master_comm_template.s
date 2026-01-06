@@ -66,17 +66,17 @@ repeat:
 elif1:
 	cmp		R4, #2		@ command cmp 2 ?
 	bne		elif2		@ next option
-@ command 2
+	debug   R4
 	b		end_if		@ body done
 elif2:
 	cmp		R4, #3		@ command cmp 3 ?
 	bne		elif3		@ next option
-@ command 3
+    debug   R4
 	b		end_if		@ body done
 elif3:
 	cmp		R4, #4		@ command cmp 4 ?
 	bne		elif4		@ next option
-@ command 3
+	debug   R4
 	b		end_if		@ body done
 elif4:
 	cmp		R4, #0		@ command cmp 0 ?
