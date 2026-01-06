@@ -72,7 +72,7 @@ exit:
 	svc		0				@ call Linux
 
 get_answer:
-	mov R0, #5				@ set byte standard
+	mov R0, #0				@ set byte standard
 	bl receive_byte			@ call receive_byte()
 	debug R0				@ debug received byte
 	cmp R0, #1				@ compare with 1 (winner is player 1)
@@ -83,8 +83,7 @@ get_answer:
 	beq draw				@ branch if draw
 	cmp R0, #4				@ compare with 4 (error)
 	beq exit				@ exit program
-	cmp R0, #5				@ compare with 5 (standard begin value)
-	beq get_answer			@ branch if error, get new answer
+	b 	get_answer			@ back to loop
 
 loser:
 	ldr		R0, =loser_str	@ load address string
