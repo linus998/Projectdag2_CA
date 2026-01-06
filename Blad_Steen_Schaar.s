@@ -44,14 +44,6 @@ elif1:
 	bl		send_byte		@ call send_byte()
 	b		get_answer		@ body done
 
-elif1:
-	cmp		R4, #2			@ command cmp 2 ?
-	bne		elif2			@ next option
-	debug   R4				@ debug command 2
-	mov		R0, R4			@ parameter send_byte
-	bl		send_byte		@ call send_byte()
-	b		get_answer		@ body done
-
 elif2:
 	cmp		R4, #3			@ command cmp 3 ?
 	bne		elif3			@ next option
