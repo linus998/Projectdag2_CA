@@ -72,6 +72,10 @@ exit:
 	svc		0				@ call Linux
 
 get_answer:
+
+	ldr		R0, =get_answer	@ load address string
+	bl		printf			@ call printf()
+
 	mov R0, #0				@ set byte standard
 	bl receive_byte			@ call receive_byte()
 	debug R0				@ debug received byte
@@ -114,4 +118,5 @@ give_com: .asciz "Blad(1) Steen(2) Schaar(3) Exit(4) >>"
 loser_str: .asciz "You lost!\n"
 winner_str: .asciz "You won!\n"
 draw_str: .asciz "Draw!\n"
+get_answer: .asciz "Waiting for opponent's move...\n"
 str_buffer: .space 128
