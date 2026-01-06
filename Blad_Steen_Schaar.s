@@ -66,7 +66,7 @@ elif3:
 	debug   R4				@ debug command 4
 	mov		R0, R4			@ parameter send_byte
 	bl		send_byte		@ call send_byte()
-	b		end_repeat
+	b		end_repeat		@ body done
 
 elif4:
 	cmp		R4, #0			@ command cmp 0 ?
@@ -80,26 +80,31 @@ end_repeat:
 	svc		0				@ call Linux
 
 get_answer:
-	mov R0, #3
-	bl receive_byte
-	cmp R0, #1
-	beq loser
-	cmp R0, #2
-	beq winner
-	cmp R0, #3
-	beq get_answer
+	mov R0, #4				@ set byte standard
+	bl receive_byte			@ call receive_byte()
+	cmp R0, #1				@ compare with 1 (winner is player 1)
+	beq loser				@ branch if lost
+	cmp R0, #2				@ compare with 2 (winner is player 2)
+	beq winner				@ branch if won
+	cmp R0, #3				@ compare with 3 (draw)
+	beq draw				@ branch if draw
+	cmp R0, #4				@ compare with 4 (standard begin value)
+	beq get_answer			@ branch if error, get new answer
 
 loser:
-	ldr R0, =str_buffer
-	ldr R1, = "You lost!\n"
-	bl printf
-	b repeat
+	ldr		R0, =loser_str	@ load address string
+	bl		printf			@ call printf()
+	b 		repeat			@ back to loop
 
 winner:
-	ldr R0, =str_buffer
-	ldr R1, = "You won!\n"
-	bl printf
-	b repeat
+	ldr		R0, =winner_str	@ load address string
+	bl		printf			@ call printf()
+	b 		repeat			@ back to loop
+
+draw:
+	ldr		R0, =draw_str	@ load address string
+	bl		printf			@ call printf()
+	b 		repeat			@ back to loop
 
 .data
 command: .space 4
@@ -112,4 +117,7 @@ f_str_i: .asciz "%d"
 f_str_s: .asciz "%s"
 fout_com: .asciz "fout commando\n"
 give_com: .asciz "Blad(1) Steen(2) Schaar(3) Exit(4) >>"
+loser_str: .asciz "You lost!\n"
+winner_str: .asciz "You won!\n"
+draw_str: .asciz "Draw!\n"
 str_buffer: .space 128
