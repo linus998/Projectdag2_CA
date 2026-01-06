@@ -74,6 +74,7 @@ exit:
 get_answer:
 	mov R0, #5				@ set byte standard
 	bl receive_byte			@ call receive_byte()
+	debug R0				@ debug received byte
 	cmp R0, #1				@ compare with 1 (winner is player 1)
 	beq loser				@ branch if lost
 	cmp R0, #2				@ compare with 2 (winner is player 2)
