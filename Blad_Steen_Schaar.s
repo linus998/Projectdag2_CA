@@ -66,21 +66,21 @@ elif3:
 	debug   R4				@ debug command 4
 	mov		R0, R4			@ parameter send_byte
 	bl		send_byte		@ call send_byte()
-	b		end_repeat		@ body done
+	b		exit			@ body done
 
 elif4:
 	cmp		R4, #0			@ command cmp 0 ?
-	beq		end_repeat		@ until (command == 0)
+	beq		exit			@ until (command == 0)
 	ldr		R0, =fout_com	@ load address string
 	bl		printf			@ call printf()
 
-end_repeat:
+exit:
 	mov		R0, #0			@ return code 0
 	mov		R7, #1			@ exit
 	svc		0				@ call Linux
 
 get_answer:
-	mov R0, #4				@ set byte standard
+	mov R0, #5				@ set byte standard
 	bl receive_byte			@ call receive_byte()
 	cmp R0, #1				@ compare with 1 (winner is player 1)
 	beq loser				@ branch if lost
@@ -88,7 +88,9 @@ get_answer:
 	beq winner				@ branch if won
 	cmp R0, #3				@ compare with 3 (draw)
 	beq draw				@ branch if draw
-	cmp R0, #4				@ compare with 4 (standard begin value)
+	cmp R0, #4				@ compare with 4 (error)
+	beq exit				@ exit program
+	cmp R0, #5				@ compare with 5 (standard begin value)
 	beq get_answer			@ branch if error, get new answer
 
 loser:
