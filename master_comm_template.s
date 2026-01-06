@@ -59,6 +59,10 @@ repeat:
 	ldr		R4, =command	@ load address command
 	ldr		R4, [R4]	@ load command
 	cmp		R4, #1		@ command cmp 1 ?
+
+	@ hier code voor comando 1
+	debug   R4
+
 	bne		elif1		@ next option
 	mov		R0, R4		@ parameter send_byte
 	bl		send_byte	@ call send_byte()
@@ -66,17 +70,26 @@ repeat:
 elif1:
 	cmp		R4, #2		@ command cmp 2 ?
 	bne		elif2		@ next option
+
+	@ hier code voor comando 2
 	debug   R4
+
 	b		end_if		@ body done
 elif2:
 	cmp		R4, #3		@ command cmp 3 ?
 	bne		elif3		@ next option
+
+	@ hier code voor comando 3
     debug   R4
+
 	b		end_if		@ body done
 elif3:
 	cmp		R4, #4		@ command cmp 4 ?
 	bne		elif4		@ next option
+
+	@ hier code voor comando 2
 	debug   R4
+	
 	b		end_if		@ body done
 elif4:
 	cmp		R4, #0		@ command cmp 0 ?
